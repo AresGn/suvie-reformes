@@ -7,6 +7,7 @@
     <title>Dashboard V.1 | Kiaalap - Kiaalap Admin Template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- favicon
 		============================================ -->
@@ -74,7 +75,16 @@
     <!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+<!-- Notifications CSS -->
+<link rel="stylesheet" href="{{ asset('css/notifications/notifications.css') }}">
+<link rel="stylesheet" href="{{ asset('css/notifications-custom.css') }}">
+
+<!-- Font Awesome 5 pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 @livewireStyles
+
+@yield('styles')
 
 <style>
     /* Styles pour les labels (badges dans Bootstrap 3) */
@@ -1003,6 +1013,11 @@
 
 <!-- Select2 JS (après jQuery) -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Notifications JS -->
+<script src="{{ asset('js/notifications/Lobibox.js') }}"></script>
+<script src="{{ asset('js/notifications/notification-active.js') }}"></script>
+<script src="{{ asset('js/notifications-manager.js') }}"></script>
 
 @yield('script')
 

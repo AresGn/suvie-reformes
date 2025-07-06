@@ -58,6 +58,11 @@ class PermissionSeeder extends Seeder
             // Permissions pour les sessions
             'view_sessions',
             'manage_sessions',
+
+            // Permissions pour les notifications
+            'read_notifications',
+            'manage_notifications',
+            'send_notifications',
         ];
 
         foreach ($permissions as $permission) {

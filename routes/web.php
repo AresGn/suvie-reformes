@@ -11,6 +11,7 @@ use App\Http\Controllers\ActivitesreformesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuiviActivitesController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\NotificationController;
 
 
 use App\Livewire\MenuComponent;
@@ -211,3 +212,44 @@ Route::prefix('suivi-activites')->name('suivi-activites.')->group(function () {
 
 // Route API pour récupérer le poids restant d'une activité
 Route::get('api/activites/{activite}/poids-restant', [ActivitesreformesController::class, 'getPoidsRestant'])->name('api.activites.poids-restant');
+
+    // Routes pour les notifications - accessibles à tous les utilisateurs connectés
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        // Page principale des notifications
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+
+        // API pour récupérer les notifications (AJAX)
+        Route::get('/api', [NotificationController::class, 'getNotifications'])->name('api');
+
+        // Obtenir le nombre de notifications non lues
+        Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
+
+        // Marquer une notification comme lue
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('mark-read');
+
+        // Marquer toutes les notifications comme lues
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+
+        // Afficher une notification et la marquer comme lue
+        Route::get('/{id}', [NotificationController::class, 'show'])->name('show');
+
+        // Supprimer une notification
+        Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
+
+        // Supprimer toutes les notifications lues
+        Route::delete('/delete-read', [NotificationController::class, 'deleteRead'])->name('delete-read');
+
+        // Obtenir les statistiques des notifications
+        Route::get('/stats', [NotificationController::class, 'getStats'])->name('stats');
+    });
+
+    // Routes pour les notifications (admin seulement)
+    Route::middleware('role:admin')->prefix('notifications')->name('notifications.')->group(function () {
+        // Créer une notification de test
+        Route::post('/test', [NotificationController::class, 'createTest'])->name('test');
+
+        // Envoyer une notification à tous les utilisateurs d'un rôle
+        Route::post('/send-to-role', [NotificationController::class, 'sendToRole'])->name('send-to-role');
+    });
+
+});
