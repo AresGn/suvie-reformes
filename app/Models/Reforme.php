@@ -51,7 +51,21 @@ class Reforme extends Model
     // Relation avec les indicateurs liés à la réforme
     public function indicateurs()
     {
-        return $this->belongsToMany(Indicateur::class, 'reforme_indicateur');
+        return $this->belongsToMany(Indicateur::class, 'reformes_indicateurs');
+    }
+
+    // Relation avec les indicateurs de réforme (table pivot enrichie)
+    public function reformeIndicateurs()
+    {
+        return $this->hasMany(ReformeIndicateur::class, 'reforme_id');
+    }
+
+    // Obtenir toutes les évolutions des indicateurs de cette réforme
+    public function evolutionsIndicateurs()
+    {
+        return EvolutionIndicateur::whereHas('reformeIndicateur', function($query) {
+            $query->where('reforme_id', $this->id);
+        });
     }
 
     // Accesseur pour le statut (calculé selon les dates)

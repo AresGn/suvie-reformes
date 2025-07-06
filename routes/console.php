@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
+use App\Console\Commands\DetecterIndicateursObsoletes;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -19,3 +20,15 @@ Schedule::command('sessions:cleanup')
     ->sundays()
     ->at('02:00')
     ->description('Nettoyer les anciennes sessions');
+
+// Planifier la détection des indicateurs obsolètes tous les jours à 8h00
+Schedule::command('indicateurs:detecter-obsoletes')
+    ->dailyAt('08:00')
+    ->description('Détecter les indicateurs obsolètes et envoyer des notifications');
+
+// Planifier une vérification hebdomadaire plus stricte (60 jours) le lundi à 9h00
+Schedule::command('indicateurs:detecter-obsoletes --seuil=60')
+    ->weekly()
+    ->mondays()
+    ->at('09:00')
+    ->description('Vérification hebdomadaire des indicateurs très obsolètes');

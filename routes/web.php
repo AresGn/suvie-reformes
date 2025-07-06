@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuiviActivitesController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SuiviIndicateurController;
 
 
 use App\Livewire\MenuComponent;
@@ -250,6 +251,34 @@ Route::get('api/activites/{activite}/poids-restant', [ActivitesreformesControlle
 
         // Envoyer une notification à tous les utilisateurs d'un rôle
         Route::post('/send-to-role', [NotificationController::class, 'sendToRole'])->name('send-to-role');
+    });
+
+    // Routes pour le suivi des indicateurs - accessibles aux gestionnaires et admins
+    Route::middleware('role:gestionnaire,admin')->prefix('suivi-indicateurs')->name('suivi-indicateurs.')->group(function () {
+        // Pages principales
+        Route::get('/', [SuiviIndicateurController::class, 'index'])->name('index');
+        Route::get('/reforme/{reforme}', [SuiviIndicateurController::class, 'tableauBordReforme'])->name('tableau-bord');
+        Route::get('/alertes', [SuiviIndicateurController::class, 'alertes'])->name('alertes');
+
+        // Gestion des associations indicateur-réforme
+        Route::post('/reforme/{reforme}/associer', [SuiviIndicateurController::class, 'associerIndicateur'])->name('associer');
+        Route::get('/reforme/{reforme}/indicateur/{indicateur}/dissocier', [SuiviIndicateurController::class, 'dissocierIndicateur'])->name('dissocier');
+
+        // Gestion des évolutions
+        Route::get('/{reformeIndicateur}/evolution/creer', [SuiviIndicateurController::class, 'creerEvolution'])->name('creer-evolution');
+        Route::post('/{reformeIndicateur}/evolution', [SuiviIndicateurController::class, 'stockerEvolution'])->name('stocker-evolution');
+        Route::get('/{reformeIndicateur}/evolution/{date}/modifier', [SuiviIndicateurController::class, 'modifierEvolution'])->name('modifier-evolution');
+        Route::put('/{reformeIndicateur}/evolution/{date}', [SuiviIndicateurController::class, 'mettreAJourEvolution'])->name('mettre-a-jour-evolution');
+        Route::get('/{reformeIndicateur}/evolution/{date}/supprimer', [SuiviIndicateurController::class, 'supprimerEvolution'])->name('supprimer-evolution');
+
+        // Import/Export
+        Route::get('/import-lot', [SuiviIndicateurController::class, 'importLot'])->name('import-lot');
+        Route::post('/import-lot', [SuiviIndicateurController::class, 'traiterImportLot'])->name('traiter-import-lot');
+        Route::get('/reforme/{reforme}/export-csv', [SuiviIndicateurController::class, 'exporterCSV'])->name('exporter-csv');
+
+        // API pour les graphiques et données
+        Route::get('/api/{reformeIndicateur}/graphique', [SuiviIndicateurController::class, 'apiDonneesGraphique'])->name('api.graphique');
+        Route::get('/api/reforme/{reforme}/statistiques', [SuiviIndicateurController::class, 'apiStatistiquesReforme'])->name('api.statistiques');
     });
 
 });

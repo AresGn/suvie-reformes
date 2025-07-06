@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Events;
+
+use App\Models\EvolutionIndicateur;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class IndicateurSeuilDepasse
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $evolution;
+    public $typeAlerte;
+    public $seuil;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(EvolutionIndicateur $evolution, string $typeAlerte, float $seuil)
+    {
+        $this->evolution = $evolution;
+        $this->typeAlerte = $typeAlerte;
+        $this->seuil = $seuil;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new PrivateChannel('channel-name'),
+        ];
+    }
+}

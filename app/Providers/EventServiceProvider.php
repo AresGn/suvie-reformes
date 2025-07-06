@@ -9,11 +9,17 @@ use App\Events\ReformeUpdated;
 use App\Events\ActiviteCreated;
 use App\Events\ActiviteCompleted;
 use App\Events\DeadlineApproaching;
+use App\Events\EvolutionIndicateurCreated;
+use App\Events\IndicateurSeuilDepasse;
+use App\Events\IndicateurObsolete;
 use App\Listeners\SendReformeCreatedNotification;
 use App\Listeners\SendReformeUpdatedNotification;
 use App\Listeners\SendActiviteCreatedNotification;
 use App\Listeners\SendActiviteCompletedNotification;
 use App\Listeners\SendDeadlineNotification;
+use App\Listeners\NotifierEvolutionIndicateur;
+use App\Listeners\NotifierSeuilDepasse;
+use App\Listeners\NotifierIndicateurObsolete;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -54,6 +60,19 @@ class EventServiceProvider extends ServiceProvider
 
         DeadlineApproaching::class => [
             SendDeadlineNotification::class,
+        ],
+
+        // Événements de suivi des indicateurs
+        EvolutionIndicateurCreated::class => [
+            NotifierEvolutionIndicateur::class,
+        ],
+
+        IndicateurSeuilDepasse::class => [
+            NotifierSeuilDepasse::class,
+        ],
+
+        IndicateurObsolete::class => [
+            NotifierIndicateurObsolete::class,
         ],
     ];
 
