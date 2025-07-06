@@ -14,9 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Ordre important : d'abord les entités de base
+            PermissionSeeder::class,
             RoleSeeder::class,
-        ]);
-        $this->call(UsersTableSeeder::class);
+            MenuSeeder::class,
 
+            // Ensuite les associations
+            RolePermissionMenuSeeder::class,
+
+            // Enfin les utilisateurs
+            UsersTableSeeder::class,
+            AdminUserSeeder::class,
+        ]);
     }
 }

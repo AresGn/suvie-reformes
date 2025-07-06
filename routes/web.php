@@ -34,15 +34,72 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     return view('dashboard'); // ou remplace par ta vue réelle
 })->name('dashboard');*/
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Routes protégées par authentification
+Route::middleware('auth')->group(function () {
+    // Tableau de bord - accessible à tous les utilisateurs connectés
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::resource('typereforme', TypereformeController::class)->except(['create', 'edit']);
-Route::resource('reforme', ReformeController::class) ;
-Route::resource('role', RoleController::class)->name('index', 'role');
-Route::resource('indicateurs', IndicateurController::class);
-Route::resource('utilisateurs', UserController::class);
-// Routes pour les activités de réforme
-Route::resource('activites', ActivitesreformesController::class);
+    // Routes pour les réformes - nécessite permission de lecture
+    Route::middleware('role.permission:permission:read_reformes')->group(function () {
+        Route::get('reforme', [ReformeController::class, 'index'])->name('reformes.index');
+        Route::get('reforme/{reforme}', [ReformeController::class, 'show'])->name('reformes.show');
+    });
+
+    // Routes pour créer/modifier les réformes - nécessite permission de création/modification
+    Route::middleware('role.permission:permission:create_reformes')->group(function () {
+        Route::get('reforme/create', [ReformeController::class, 'create'])->name('reformes.create');
+        Route::post('reforme', [ReformeController::class, 'store'])->name('reformes.store');
+    });
+
+    Route::middleware('role.permission:permission:update_reformes')->group(function () {
+        Route::get('reforme/{reforme}/edit', [ReformeController::class, 'edit'])->name('reformes.edit');
+        Route::put('reforme/{reforme}', [ReformeController::class, 'update'])->name('reformes.update');
+    });
+
+    Route::middleware('role.permission:permission:delete_reformes')->group(function () {
+        Route::delete('reforme/{reforme}', [ReformeController::class, 'destroy'])->name('reformes.destroy');
+    });
+
+    // Routes pour les activités - nécessite permission de lecture
+    Route::middleware('role.permission:permission:read_activites')->group(function () {
+        Route::get('activites', [ActivitesreformesController::class, 'index'])->name('activites.index');
+        Route::get('activites/{activite}', [ActivitesreformesController::class, 'show'])->name('activites.show');
+    });
+
+    Route::middleware('role.permission:permission:create_activites')->group(function () {
+        Route::get('activites/create', [ActivitesreformesController::class, 'create'])->name('activites.create');
+        Route::post('activites', [ActivitesreformesController::class, 'store'])->name('activites.store');
+    });
+
+    Route::middleware('role.permission:permission:update_activites')->group(function () {
+        Route::get('activites/{activite}/edit', [ActivitesreformesController::class, 'edit'])->name('activites.edit');
+        Route::put('activites/{activite}', [ActivitesreformesController::class, 'update'])->name('activites.update');
+    });
+
+    Route::middleware('role.permission:permission:delete_activites')->group(function () {
+        Route::delete('activites/{activite}', [ActivitesreformesController::class, 'destroy'])->name('activites.destroy');
+    });
+
+    // Routes pour les indicateurs - nécessite permission de lecture
+    Route::middleware('role.permission:permission:read_indicateurs')->group(function () {
+        Route::resource('indicateurs', IndicateurController::class)->only(['index', 'show']);
+    });
+
+    Route::middleware('role.permission:permission:manage_indicateurs')->group(function () {
+        Route::resource('indicateurs', IndicateurController::class)->except(['index', 'show']);
+    });
+
+    // Routes pour les types de réforme - nécessite permission de gestion
+    Route::middleware('role.permission:permission:manage_types_reforme')->group(function () {
+        Route::resource('typereforme', TypereformeController::class)->except(['create', 'edit']);
+    });
+
+    // Routes d'administration - réservées aux administrateurs
+    Route::middleware('role:admin,administrateur')->group(function () {
+        Route::resource('utilisateurs', UserController::class);
+        Route::resource('role', RoleController::class)->name('index', 'role');
+    });
+});
 
 // Routes pour les sessions (optionnel - pour visualisation)
 Route::middleware('auth')->group(function () {
