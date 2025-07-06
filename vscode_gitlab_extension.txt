@@ -1,0 +1,31 @@
+VS CODE + EXTENSION GITLAB
+==========================
+
+🔌 INSTALLATION EXTENSION:
+1. Ouvrir VS Code
+2. Aller dans Extensions (Ctrl+Shift+X)
+3. Chercher "GitLab Workflow"
+4. Installer l'extension officielle GitLab
+
+📂 OUVERTURE DU PROJET:
+1. File → Open Folder
+2. Sélectionner votre dossier "suivi-reforme"
+
+🔧 CONFIGURATION:
+1. Ctrl+Shift+P → "GitLab: Set GitLab URL"
+2. Entrer: https://gitlab.com
+3. Ajouter votre token d'accès GitLab
+
+🚀 DÉPLOIEMENT INTÉGRÉ:
+1. Panneau "Source Control" (Ctrl+Shift+G)
+2. Voir tous les fichiers modifiés
+3. Cliquer "+" pour ajouter tous les fichiers
+4. Écrire un message de commit
+5. Cliquer "✓ Commit"
+6. Cliquer "..." → "Push"
+
+✅ AVANTAGES:
+- Intégration complète GitLab
+- Gestion des merge requests
+- Aperçu des pipelines CI/CD
+- Tout depuis votre éditeur

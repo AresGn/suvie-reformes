@@ -1,0 +1,31 @@
+GITHUB DESKTOP - MÉTHODE ULTRA-SIMPLE
+====================================
+
+📥 INSTALLATION (5 MINUTES):
+1. Aller sur: https://desktop.github.com/
+2. Télécharger et installer
+3. Ouvrir l'application
+
+🔗 CONNEXION À VOTRE PROJET:
+1. File → Clone repository → URL
+2. Coller: https://gitlab.com/stage-insti/suivi-reforme.git
+3. Choisir le dossier de destination
+4. Cliquer "Clone"
+
+🎯 UTILISATION (2 MINUTES):
+1. L'application détecte AUTOMATIQUEMENT tous vos fichiers modifiés
+2. Vous voyez la liste complète des changements
+3. Cocher les fichiers à inclure (ou "Select All")
+4. Écrire un message de commit
+5. Cliquer "Commit to dev-don"
+6. Cliquer "Push origin"
+
+✅ TERMINÉ! Tous vos fichiers sont sur GitLab
+
+🎨 AVANTAGES:
+- Détection automatique des changements
+- Interface 100% graphique
+- Gestion des branches en un clic
+- Aperçu des modifications
+- Fonctionne avec GitLab
+- Pas de ligne de commande

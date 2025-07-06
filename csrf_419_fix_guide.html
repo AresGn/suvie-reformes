@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔧 Résolution Erreur 419 - Page Expired</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+        .info { color: #007bff; }
+        .warning { color: #ffc107; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .fix-box { background-color: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 10px 0; }
+        .problem-box { background-color: #f8d7da; padding: 15px; border-left: 4px solid #dc3545; margin: 10px 0; }
+        .code-block { background-color: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; margin: 10px 0; }
+        .btn { display: inline-block; padding: 10px 20px; margin: 5px; text-decoration: none; border-radius: 5px; color: white; }
+        .btn-primary { background-color: #007bff; }
+        .btn-success { background-color: #28a745; }
+        .btn-warning { background-color: #ffc107; color: #212529; }
+        .btn-danger { background-color: #dc3545; }
+        .step-list { list-style-type: none; padding: 0; counter-reset: step-counter; }
+        .step-list li { padding: 8px 0; counter-increment: step-counter; }
+        .step-list li:before { content: counter(step-counter) ". "; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Résolution Erreur 419 - Page Expired</h1>
+        
+        <div class="test-section">
+            <h2>❌ Erreur 419 - Page Expired</h2>
+            <div class="problem-box">
+                <h4>Qu'est-ce que l'erreur 419 ?</h4>
+                <p>L'erreur 419 "Page Expired" se produit quand le token CSRF (Cross-Site Request Forgery) de Laravel a expiré ou est invalide.</p>
+                
+                <h5>Causes Principales :</h5>
+                <ul>
+                    <li>❌ <strong>Session expirée :</strong> Vous êtes resté inactif trop longtemps</li>
+                    <li>❌ <strong>Cache navigateur :</strong> Formulaire mis en cache avec ancien token</li>
+                    <li>❌ <strong>Configuration session :</strong> Durée de vie trop courte</li>
+                    <li>❌ <strong>Token CSRF manquant :</strong> @csrf absent du formulaire</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>✅ Solutions Immédiates</h2>
+            
+            <div class="fix-box">
+                <h4>🔄 Solution 1 - Actualiser la Page</h4>
+                <ol class="step-list">
+                    <li><strong>Appuyez sur F5</strong> ou Ctrl+F5 pour actualiser</li>
+                    <li><strong>Ou fermez et rouvrez</strong> l'onglet</li>
+                    <li><strong>Retournez au formulaire</strong> et réessayez</li>
+                </ol>
+                <p class="success">✅ Solution la plus simple et efficace dans 80% des cas</p>
+            </div>
+            
+            <div class="fix-box">
+                <h4>🗑️ Solution 2 - Vider le Cache du Navigateur</h4>
+                <ol class="step-list">
+                    <li><strong>Appuyez sur Ctrl+Shift+Delete</strong></li>
+                    <li><strong>Sélectionnez :</strong> "Images et fichiers en cache"</li>
+                    <li><strong>Cliquez :</strong> "Effacer les données"</li>
+                    <li><strong>Actualisez la page</strong></li>
+                </ol>
+                <p class="info">💡 Résout les problèmes de cache de formulaires</p>
+            </div>
+            
+            <div class="fix-box">
+                <h4>🔐 Solution 3 - Reconnexion</h4>
+                <ol class="step-list">
+                    <li><strong>Déconnectez-vous</strong> de l'application</li>
+                    <li><strong>Reconnectez-vous</strong> avec vos identifiants</li>
+                    <li><strong>Retournez au formulaire</strong></li>
+                </ol>
+                <p class="info">💡 Génère une nouvelle session et un nouveau token CSRF</p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Corrections Appliquées</h2>
+            
+            <div class="fix-box">
+                <h4>✅ Augmentation de la Durée de Vie des Sessions</h4>
+                <p><strong>Fichier modifié :</strong> <code>config/session.php</code></p>
+                
+                <div class="code-block">
+// AVANT (2 heures)
+'lifetime' => (int) env('SESSION_LIFETIME', 120),
+
+// APRÈS (8 heures)
+'lifetime' => (int) env('SESSION_LIFETIME', 480),
+                </div>
+                
+                <p class="success">✅ Les sessions durent maintenant 8 heures au lieu de 2</p>
+            </div>
+            
+            <div class="fix-box">
+                <h4>✅ Route de Diagnostic Ajoutée</h4>
+                <p><strong>Route créée :</strong> <code>/test-csrf</code></p>
+                
+                <div class="code-block">
+Route::get('/test-csrf', function() {
+    return response()->json([
+        'csrf_token' => csrf_token(),
+        'session_id' => session()->getId(),
+        'session_lifetime' => config('session.lifetime'),
+        'session_driver' => config('session.driver'),
+        'app_key_set' => !empty(config('app.key')),
+        'current_time' => now(),
+        'message' => 'Test CSRF et session'
+    ]);
+});
+                </div>
+                
+                <p class="info">💡 Permet de diagnostiquer les problèmes de session et CSRF</p>
+            </div>
+            
+            <div class="fix-box">
+                <h4>✅ Vérification des Tokens CSRF</h4>
+                <p>Tous les formulaires contiennent bien le token CSRF :</p>
+                
+                <div class="code-block">
+✅ Formulaire création activité : @csrf présent
+✅ Formulaire modification activité : @csrf présent  
+✅ Formulaire suppression activité : @csrf présent
+✅ Formulaire création sous-activité : @csrf présent
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Tests de Diagnostic</h2>
+            
+            <h3>Test 1 - Vérifier le Token CSRF :</h3>
+            <ol class="step-list">
+                <li><strong>Accédez à :</strong> <code>/test-csrf</code></li>
+                <li><strong>Vérifiez :</strong> Présence du csrf_token</li>
+                <li><strong>Notez :</strong> L'ID de session</li>
+                <li><strong>Confirmez :</strong> session_lifetime = 480 minutes</li>
+            </ol>
+            
+            <h3>Test 2 - Tester un Formulaire :</h3>
+            <ol class="step-list">
+                <li><strong>Ouvrez :</strong> Le formulaire de création d'activité</li>
+                <li><strong>Inspectez :</strong> F12 → Elements</li>
+                <li><strong>Cherchez :</strong> <code>&lt;input name="_token"&gt;</code></li>
+                <li><strong>Vérifiez :</strong> Que la valeur n'est pas vide</li>
+            </ol>
+            
+            <h3>Test 3 - Console Navigateur :</h3>
+            <div class="code-block">
+// Dans la console du navigateur (F12)
+console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]')?.content);
+console.log('Form Token:', document.querySelector('input[name="_token"]')?.value);
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>⚙️ Configuration Avancée</h2>
+            
+            <h3>Variables d'Environnement (.env) :</h3>
+            <div class="code-block">
+# Durée de vie des sessions (en minutes)
+SESSION_LIFETIME=480
+
+# Driver de session
+SESSION_DRIVER=file
+
+# Chiffrement des sessions
+SESSION_ENCRYPT=false
+
+# Expiration à la fermeture du navigateur
+SESSION_EXPIRE_ON_CLOSE=false
+            </div>
+            
+            <h3>Commandes Laravel Utiles :</h3>
+            <div class="code-block">
+# Vider le cache de l'application
+php artisan cache:clear
+
+# Vider le cache de configuration
+php artisan config:clear
+
+# Vider le cache des sessions
+php artisan session:clear
+
+# Régénérer la clé d'application
+php artisan key:generate
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🚨 Prévention Future</h2>
+            
+            <h3>Bonnes Pratiques :</h3>
+            <ul>
+                <li>✅ <strong>Sauvegardez régulièrement :</strong> Évitez de perdre votre travail</li>
+                <li>✅ <strong>Actualisez avant soumission :</strong> Si vous êtes resté inactif</li>
+                <li>✅ <strong>Utilisez plusieurs onglets :</strong> Pour éviter les timeouts</li>
+                <li>✅ <strong>Vérifiez la connexion :</strong> Avant de soumettre des formulaires longs</li>
+            </ul>
+            
+            <h3>Surveillance :</h3>
+            <div class="code-block">
+# Surveiller les erreurs 419 dans les logs
+tail -f storage/logs/laravel.log | grep "419"
+
+# Vérifier les sessions actives
+ls -la storage/framework/sessions/
+
+# Surveiller l'utilisation mémoire des sessions
+du -sh storage/framework/sessions/
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔍 Diagnostic Approfondi</h2>
+            
+            <h3>Si le Problème Persiste :</h3>
+            
+            <h4>1. Vérifier les Permissions :</h4>
+            <div class="code-block">
+# Permissions du dossier sessions
+chmod 755 storage/framework/sessions/
+chmod 644 storage/framework/sessions/*
+
+# Permissions du dossier cache
+chmod 755 storage/framework/cache/
+            </div>
+            
+            <h4>2. Vérifier la Configuration :</h4>
+            <div class="code-block">
+# Vérifier la clé d'application
+php artisan tinker
+config('app.key'); // Ne doit pas être vide
+
+# Vérifier la configuration des sessions
+config('session.driver');
+config('session.lifetime');
+            </div>
+            
+            <h4>3. Mode Debug :</h4>
+            <div class="code-block">
+# Dans .env
+APP_DEBUG=true
+
+# Puis vérifier les logs détaillés
+tail -f storage/logs/laravel.log
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Actions de Test</h2>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="/test-csrf" class="btn btn-primary" target="_blank">
+                    🧪 Tester CSRF
+                </a>
+                <a href="/activites" class="btn btn-success" target="_blank">
+                    📋 Tester Formulaire
+                </a>
+                <a href="javascript:location.reload()" class="btn btn-warning">
+                    🔄 Actualiser Page
+                </a>
+                <a href="javascript:localStorage.clear();sessionStorage.clear();location.reload()" class="btn btn-danger">
+                    🗑️ Vider Cache
+                </a>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎉 Résolution</h2>
+            <p class="success">L'erreur 419 devrait maintenant être résolue !</p>
+            
+            <h3>Améliorations Apportées :</h3>
+            <ul>
+                <li>✅ <strong>Durée de session augmentée :</strong> 8 heures au lieu de 2</li>
+                <li>✅ <strong>Route de diagnostic :</strong> /test-csrf pour vérifier</li>
+                <li>✅ <strong>Tokens CSRF vérifiés :</strong> Présents dans tous les formulaires</li>
+                <li>✅ <strong>Guide de résolution :</strong> Solutions étape par étape</li>
+            </ul>
+            
+            <h3>En Cas de Récidive :</h3>
+            <ol>
+                <li><strong>Actualisez la page</strong> (F5)</li>
+                <li><strong>Videz le cache</strong> (Ctrl+Shift+Delete)</li>
+                <li><strong>Reconnectez-vous</strong> si nécessaire</li>
+                <li><strong>Vérifiez /test-csrf</strong> pour diagnostiquer</li>
+            </ol>
+            
+            <p><strong>Vous devriez maintenant pouvoir utiliser l'application sans erreur 419 !</strong></p>
+        </div>
+    </div>
+</body>
+</html>

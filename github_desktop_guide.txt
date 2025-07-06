@@ -1,0 +1,32 @@
+GUIDE GITHUB DESKTOP POUR GITLAB
+=================================
+
+📥 INSTALLATION:
+1. Télécharger GitHub Desktop: https://desktop.github.com/
+2. Installer l'application
+3. Créer un compte ou se connecter
+
+🔗 CONFIGURATION POUR GITLAB:
+1. Ouvrir GitHub Desktop
+2. File → Clone repository → URL
+3. Entrer l'URL: https://gitlab.com/stage-insti/suivi-reforme.git
+4. Choisir le dossier local (ou utiliser le dossier existant)
+5. Cliquer "Clone"
+
+📁 UTILISATION:
+1. GitHub Desktop détectera automatiquement votre dossier de projet
+2. Vous verrez tous les fichiers modifiés dans la liste
+3. Cocher les fichiers que vous voulez commiter
+4. Écrire un message de commit dans la zone de texte
+5. Cliquer "Commit to dev-don"
+6. Cliquer "Push origin" pour envoyer vers GitLab
+
+✅ AVANTAGES:
+- Interface graphique intuitive
+- Visualisation des changements
+- Gestion facile des branches
+- Pas de ligne de commande
+- Fonctionne avec GitLab
+
+📝 MESSAGE DE COMMIT SUGGÉRÉ:
+"feat: Améliorations majeures - Interface épurée, sécurité renforcée, corrections middleware"

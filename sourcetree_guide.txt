@@ -1,0 +1,27 @@
+SOURCETREE - OUTIL GIT PROFESSIONNEL SIMPLE
+==========================================
+
+📥 INSTALLATION:
+1. Aller sur: https://www.sourcetreeapp.com/
+2. Télécharger (gratuit)
+3. Installer et créer un compte Atlassian (gratuit)
+
+🔗 AJOUT DE VOTRE PROJET:
+1. Ouvrir SourceTree
+2. "Clone" → "Clone from URL"
+3. URL: https://gitlab.com/stage-insti/suivi-reforme.git
+4. Destination: votre dossier projet
+5. Cliquer "Clone"
+
+🚀 DÉPLOIEMENT EN 3 CLICS:
+1. SourceTree montre tous vos fichiers modifiés
+2. Cliquer "Stage All" (ajouter tous les fichiers)
+3. Écrire un message de commit
+4. Cliquer "Commit"
+5. Cliquer "Push"
+
+🎯 FONCTIONNALITÉS BONUS:
+- Visualisation graphique de l'historique
+- Gestion des branches par glisser-déposer
+- Comparaison visuelle des fichiers
+- Annulation facile des changements

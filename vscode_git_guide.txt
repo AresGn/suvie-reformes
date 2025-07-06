@@ -1,0 +1,43 @@
+GUIDE VS CODE GIT INTEGRATION
+=============================
+
+📂 OUVERTURE DU PROJET:
+1. Ouvrir VS Code
+2. File → Open Folder
+3. Sélectionner votre dossier "suivi-reforme"
+
+🔧 UTILISATION DE L'INTERFACE GIT:
+1. Cliquer sur l'icône "Source Control" dans la barre latérale (icône de branche)
+2. Vous verrez tous les fichiers modifiés listés
+
+📝 COMMIT DES CHANGEMENTS:
+1. Survoler "Changes" et cliquer sur le "+" pour tout ajouter
+   OU
+   Cliquer sur le "+" à côté de chaque fichier individuellement
+
+2. Écrire un message de commit dans la zone de texte en haut:
+   "feat: Améliorations majeures interface et sécurité"
+
+3. Cliquer sur "Commit" (icône ✓)
+
+🚀 PUSH VERS GITLAB:
+1. Cliquer sur "..." (menu) dans le panneau Source Control
+2. Sélectionner "Push"
+   OU
+   Utiliser Ctrl+Shift+P → "Git: Push"
+
+🌿 GESTION DES BRANCHES:
+- En bas à gauche de VS Code, vous voyez la branche actuelle
+- Cliquer dessus pour changer de branche si nécessaire
+- Assurez-vous d'être sur "dev-don"
+
+✅ AVANTAGES:
+- Interface intégrée dans votre éditeur
+- Visualisation des différences
+- Pas de ligne de commande
+- Gestion facile des conflits
+- Historique git visible
+
+🔍 VÉRIFICATION:
+Après le push, vérifiez sur:
+https://gitlab.com/stage-insti/suivi-reforme/-/tree/dev-don

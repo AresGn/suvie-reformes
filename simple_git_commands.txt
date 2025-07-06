@@ -1,0 +1,39 @@
+COMMANDES GIT SIMPLES À EXÉCUTER UNE PAR UNE
+============================================
+
+📋 OUVREZ VOTRE TERMINAL (CMD ou PowerShell) ET EXÉCUTEZ CES COMMANDES:
+
+1. NAVIGUER VERS LE PROJET:
+cd "C:\suivi-reforme"
+
+2. VÉRIFIER L'ÉTAT ACTUEL:
+git status
+
+3. VÉRIFIER LA BRANCHE ACTUELLE:
+git branch
+
+4. AJOUTER LES FICHIERS UN PAR UN:
+git add "app\Http\Controllers\Controller.php"
+git add "app\Http\Controllers\ReformeController.php"
+git add "app\Http\Controllers\ActivitesreformesController.php"
+git add "resources\views\reforme.blade.php"
+git add "resources\views\livewire\activitesreformes.blade.php"
+git add ".gitignore"
+git add ".env.example"
+
+5. VÉRIFIER LES FICHIERS AJOUTÉS:
+git status
+
+6. CRÉER LE COMMIT:
+git commit -m "feat: Améliorations majeures interface et sécurité"
+
+7. POUSSER VERS GITLAB:
+git push origin dev-don
+
+8. VÉRIFIER LE RÉSULTAT:
+Aller sur https://gitlab.com/stage-insti/suivi-reforme/-/tree/dev-don
+
+⚠️ IMPORTANT:
+- Exécutez chaque commande individuellement
+- Attendez que chaque commande se termine avant la suivante
+- Si une commande échoue, notez l'erreur et passez à la suivante

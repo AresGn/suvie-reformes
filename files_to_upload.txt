@@ -1,0 +1,29 @@
+FICHIERS À UPLOADER VERS GITLAB - BRANCHE dev-don
+=====================================================
+
+📁 CONTRÔLEURS (app/Http/Controllers/):
+- Controller.php
+- ReformeController.php  
+- ActivitesreformesController.php
+
+📁 VUES (resources/views/):
+- reforme.blade.php
+- livewire/activitesreformes.blade.php
+
+📁 CONFIGURATION (racine du projet):
+- .gitignore
+- .env.example
+
+📝 INSTRUCTIONS POUR CHAQUE FICHIER:
+1. Aller sur GitLab → votre projet → branche dev-don
+2. Naviguer vers le dossier approprié
+3. Cliquer sur "Upload file" ou "Replace file" si le fichier existe
+4. Glisser-déposer le fichier depuis votre ordinateur
+5. Ajouter un message de commit descriptif
+6. Cliquer "Commit changes"
+
+💡 MESSAGE DE COMMIT SUGGÉRÉ:
+"feat: Mise à jour [nom_du_fichier] - Améliorations interface et sécurité"
+
+🔗 LIEN DIRECT VERS VOTRE PROJET:
+https://gitlab.com/stage-insti/suivi-reforme/-/tree/dev-don

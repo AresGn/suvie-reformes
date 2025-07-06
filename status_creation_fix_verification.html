@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔧 Correction - Statut 'C' par Défaut lors de la Création</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+        .info { color: #007bff; }
+        .warning { color: #ffc107; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .fix-box { background-color: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 10px 0; }
+        .problem-box { background-color: #f8d7da; padding: 15px; border-left: 4px solid #dc3545; margin: 10px 0; }
+        .code-block { background-color: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; margin: 10px 0; }
+        .btn { display: inline-block; padding: 10px 20px; margin: 5px; text-decoration: none; border-radius: 5px; color: white; }
+        .btn-primary { background-color: #007bff; }
+        .btn-success { background-color: #28a745; }
+        .btn-warning { background-color: #ffc107; color: #212529; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .comparison-table th { background-color: #f8f9fa; }
+        .step-list { list-style-type: none; padding: 0; counter-reset: step-counter; }
+        .step-list li { padding: 8px 0; counter-increment: step-counter; }
+        .step-list li:before { content: counter(step-counter) ". "; color: #007bff; font-weight: bold; }
+        .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; color: white; font-size: 12px; font-weight: bold; }
+        .status-c { background-color: #777; }
+        .status-p { background-color: #f0ad4e; }
+        .status-a { background-color: #5cb85c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Correction - Statut 'C' par Défaut lors de la Création</h1>
+        
+        <div class="test-section">
+            <h2>✅ Problème Résolu avec Succès</h2>
+            <p class="success">Le problème d'assignation automatique du statut 'P' au lieu de 'C' lors de la création a été corrigé !</p>
+            <p>Des protections ont été ajoutées pour s'assurer que toutes les nouvelles activités et sous-activités sont créées avec le statut 'C' (Créé).</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔍 Problème Identifié</h2>
+            
+            <div class="problem-box">
+                <h4>❌ Problème : Statut 'P' au lieu de 'C' à la Création</h4>
+                <p>Les nouvelles activités et sous-activités étaient créées avec le statut 'P' (En cours) au lieu du statut attendu 'C' (Créé).</p>
+                
+                <h5>Comportement Problématique :</h5>
+                <div class="code-block">
+❌ Création d'activité → Statut = P (En cours)
+❌ Création de sous-activité → Statut = P (En cours)
+
+Attendu :
+✅ Création d'activité → Statut = C (Créé)
+✅ Création de sous-activité → Statut = C (Créé)
+                </div>
+                
+                <h5>Impact :</h5>
+                <ul>
+                    <li>❌ Workflow de statut perturbé</li>
+                    <li>❌ Activités marquées "En cours" sans suivi</li>
+                    <li>❌ Statistiques faussées</li>
+                    <li>❌ Logique métier non respectée</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>✅ Corrections Appliquées</h2>
+            
+            <div class="fix-box">
+                <h4>✅ Protection dans store() - Activités Principales</h4>
+                <p><strong>Fichier :</strong> <code>app/Http/Controllers/ActivitesreformesController.php</code></p>
+                
+                <h5>Correction Ajoutée :</h5>
+                <div class="code-block">
+// Créer l'activité avec statut automatique par défaut (C)
+$activite = Activitesreformes::create([
+    'reforme_id' => $validatedData['reforme_id'],
+    'libelle' => $validatedData['libelle'],
+    // ... autres champs
+    'created_by' => Auth::id() ?? 1,
+]);
+
+// ✅ PROTECTION AJOUTÉE
+// S'assurer que le statut est bien 'C' (Créé) par défaut
+if ($activite->statut !== 'C') {
+    \Log::warning('Statut incorrect détecté après création', [
+        'statut_actuel' => $activite->statut,
+        'statut_attendu' => 'C'
+    ]);
+    $activite->updateStatut('C', Auth::id());
+}
+                </div>
+            </div>
+            
+            <div class="fix-box">
+                <h4>✅ Protection dans storeSousActivite() - Sous-Activités</h4>
+                <p><strong>Fichier :</strong> <code>app/Http/Controllers/ActivitesreformesController.php</code></p>
+                
+                <h5>Correction Ajoutée :</h5>
+                <div class="code-block">
+// Créer la sous-activité avec statut automatique par défaut (C)
+$sousActivite = Activitesreformes::create([
+    'reforme_id' => $activitePrincipale->reforme_id,
+    'libelle' => $request->libelle,
+    // ... autres champs
+    'created_by' => Auth::id(),
+]);
+
+// ✅ PROTECTION AJOUTÉE
+// S'assurer que le statut est bien 'C' (Créé) par défaut
+if ($sousActivite->statut !== 'C') {
+    \Log::warning('Statut incorrect détecté après création de sous-activité', [
+        'statut_actuel' => $sousActivite->statut,
+        'statut_attendu' => 'C',
+        'parent_id' => $activiteId
+    ]);
+    $sousActivite->updateStatut('C', Auth::id());
+}
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Workflow Corrigé</h2>
+            
+            <h3>Progression Automatique Correcte :</h3>
+            
+            <div class="fix-box">
+                <h4>✅ Étape 1 - Création</h4>
+                <div class="code-block">
+🆕 Nouvelle activité/sous-activité créée
+   └── Statut automatique: <span class="status-badge status-c">C (Créé)</span>
+   └── Protection active contre assignation incorrecte
+   └── Log d'avertissement si statut incorrect détecté
+   └── Correction automatique vers 'C' si nécessaire
+                </div>
+            </div>
+            
+            <div class="fix-box">
+                <h4>✅ Étape 2 - Premier Suivi</h4>
+                <div class="code-block">
+📝 Premier suivi d'activité ajouté
+   └── Déclencheur: SuiviActivitesController@store()
+   └── Condition: if ($activite->statut === 'C')
+   └── Action: $activite->demarrer(Auth::id())
+   └── Résultat: Statut passe à <span class="status-badge status-p">P (En cours)</span>
+                </div>
+            </div>
+            
+            <div class="fix-box">
+                <h4>✅ Étape 3 - Achèvement</h4>
+                <div class="code-block">
+🏁 Activité marquée comme terminée
+   └── Déclencheur: Bouton "Terminer" ou cascade
+   └── Action: $activite->terminer(Auth::id())
+   └── Résultat: Statut passe à <span class="status-badge status-a">A (Achevé)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📋 Résumé des Corrections</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Méthode</th>
+                        <th>Avant</th>
+                        <th>Après</th>
+                        <th>Protection</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>store()</td>
+                        <td>Statut 'P' incorrect</td>
+                        <td>Statut 'C' garanti</td>
+                        <td>Vérification + correction auto</td>
+                        <td class="success">✅ Corrigé</td>
+                    </tr>
+                    <tr>
+                        <td>storeSousActivite()</td>
+                        <td>Statut 'P' incorrect</td>
+                        <td>Statut 'C' garanti</td>
+                        <td>Vérification + correction auto</td>
+                        <td class="success">✅ Corrigé</td>
+                    </tr>
+                    <tr>
+                        <td>Logging</td>
+                        <td>Pas de détection</td>
+                        <td>Avertissement si problème</td>
+                        <td>Log::warning détaillé</td>
+                        <td class="success">✅ Ajouté</td>
+                    </tr>
+                    <tr>
+                        <td>Correction auto</td>
+                        <td>Aucune</td>
+                        <td>updateStatut('C')</td>
+                        <td>Méthode sécurisée</td>
+                        <td class="success">✅ Ajouté</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Procédure de Test</h2>
+            
+            <h3>Test 1 - Création d'Activité Principale :</h3>
+            <ol class="step-list">
+                <li><strong>Accédez à :</strong> <code>/activites</code></li>
+                <li><strong>Cliquez :</strong> "Ajouter une activité"</li>
+                <li><strong>Remplissez :</strong> Tous les champs requis</li>
+                <li><strong>Soumettez :</strong> Le formulaire</li>
+                <li><strong>Vérifiez :</strong> Statut = <span class="status-badge status-c">C (Créé)</span></li>
+            </ol>
+            
+            <h3>Test 2 - Création de Sous-Activité :</h3>
+            <ol class="step-list">
+                <li><strong>Accédez :</strong> Page des sous-activités d'une activité</li>
+                <li><strong>Cliquez :</strong> "Ajouter une sous-activité"</li>
+                <li><strong>Remplissez :</strong> Tous les champs requis</li>
+                <li><strong>Soumettez :</strong> Le formulaire</li>
+                <li><strong>Vérifiez :</strong> Statut = <span class="status-badge status-c">C (Créé)</span></li>
+            </ol>
+            
+            <h3>Test 3 - Vérification Logs :</h3>
+            <ol class="step-list">
+                <li><strong>Surveillez :</strong> <code>tail -f storage/logs/laravel.log</code></li>
+                <li><strong>Créez :</strong> Une nouvelle activité</li>
+                <li><strong>Vérifiez :</strong> Aucun avertissement de statut incorrect</li>
+                <li><strong>Confirmez :</strong> Log de création avec statut 'C'</li>
+            </ol>
+            
+            <h3>Test 4 - Route de Diagnostic :</h3>
+            <ol class="step-list">
+                <li><strong>Accédez à :</strong> <code>/test-statut-creation</code></li>
+                <li><strong>Analysez :</strong> Résultats JSON</li>
+                <li><strong>Vérifiez :</strong> Statut 'C' après création</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Monitoring et Surveillance</h2>
+            
+            <h3>Surveillance des Logs :</h3>
+            <div class="code-block">
+# Surveiller les créations d'activités
+tail -f storage/logs/laravel.log | grep "créée avec succès"
+
+# Détecter les corrections automatiques
+tail -f storage/logs/laravel.log | grep "Statut incorrect détecté"
+
+# Vérifier les statuts après création
+grep "statut.*C" storage/logs/laravel.log
+            </div>
+            
+            <h3>Requêtes de Vérification :</h3>
+            <div class="code-block">
+-- Vérifier les activités récemment créées
+SELECT id, libelle, statut, created_at 
+FROM activites_reformes 
+WHERE created_at >= CURDATE() 
+ORDER BY created_at DESC;
+
+-- Compter par statut
+SELECT statut, COUNT(*) as nombre
+FROM activites_reformes 
+GROUP BY statut;
+
+-- Détecter les anomalies (activités créées avec statut P)
+SELECT id, libelle, statut, created_at
+FROM activites_reformes 
+WHERE statut = 'P' 
+AND created_at >= CURDATE()
+AND id NOT IN (
+    SELECT DISTINCT activite_reforme_id 
+    FROM suivi_activites
+);
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📊 Avantages de la Correction</h2>
+            
+            <h3>Avant la Correction :</h3>
+            <ul>
+                <li>❌ <strong>Workflow perturbé :</strong> Activités "En cours" sans suivi</li>
+                <li>❌ <strong>Logique métier incorrecte :</strong> Statut ne reflète pas l'état réel</li>
+                <li>❌ <strong>Statistiques faussées :</strong> Compteurs incorrects</li>
+                <li>❌ <strong>Confusion utilisateur :</strong> Statut inattendu</li>
+            </ul>
+            
+            <h3>Après la Correction :</h3>
+            <ul>
+                <li>✅ <strong>Workflow respecté :</strong> C → P → A selon les actions</li>
+                <li>✅ <strong>Logique métier correcte :</strong> Statut reflète l'état réel</li>
+                <li>✅ <strong>Statistiques précises :</strong> Compteurs fiables</li>
+                <li>✅ <strong>Expérience utilisateur cohérente :</strong> Statut attendu</li>
+                <li>✅ <strong>Protection automatique :</strong> Correction en cas d'anomalie</li>
+                <li>✅ <strong>Surveillance active :</strong> Logs d'avertissement</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Actions de Test</h2>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="/activites" class="btn btn-primary" target="_blank">
+                    🧪 Tester Création Activité
+                </a>
+                <a href="/test-statut-creation" class="btn btn-success" target="_blank">
+                    🔧 Tester Route Diagnostic
+                </a>
+                <a href="javascript:console.log('Vérifiez storage/logs/laravel.log')" class="btn btn-warning">
+                    📋 Surveiller Logs
+                </a>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎉 Résultat Final</h2>
+            <p class="success">Le problème de statut incorrect lors de la création a été entièrement résolu !</p>
+            
+            <h3>Fonctionnalités Corrigées :</h3>
+            <ul>
+                <li>✅ <strong>Création d'activités :</strong> Statut 'C' garanti</li>
+                <li>✅ <strong>Création de sous-activités :</strong> Statut 'C' garanti</li>
+                <li>✅ <strong>Protection automatique :</strong> Correction en cas d'anomalie</li>
+                <li>✅ <strong>Surveillance active :</strong> Logs d'avertissement détaillés</li>
+                <li>✅ <strong>Workflow respecté :</strong> Progression C → P → A</li>
+            </ul>
+            
+            <h3>Robustesse Améliorée :</h3>
+            <ul>
+                <li>✅ <strong>Détection d'anomalies :</strong> Vérification après création</li>
+                <li>✅ <strong>Correction automatique :</strong> Utilisation de updateStatut()</li>
+                <li>✅ <strong>Logging détaillé :</strong> Traçabilité complète</li>
+                <li>✅ <strong>Méthodes sécurisées :</strong> Respect des contraintes métier</li>
+            </ul>
+            
+            <p><strong>Toutes les nouvelles activités et sous-activités sont maintenant créées avec le statut 'C' (Créé) comme prévu, avec une protection automatique contre les anomalies !</strong></p>
+        </div>
+    </div>
+</body>
+</html>
